@@ -38,6 +38,25 @@ public class ScriptParser {
                         diaMatcher.group(1),
                         diaMatcher.group(2)
                 ));
+                continue;
+            }
+
+            if (!commands.isEmpty()) {
+                int lastIndex = commands.size() - 1;
+                ScriptCommand lastCommand = commands.get(lastIndex);
+
+                if (ScriptCommand.Type.DIALOGUE == lastCommand.getType()) {
+                    String mergedText = lastCommand.getParam2() + " " + line;
+
+                    ScriptCommand mergedCmd = new ScriptCommand(
+                            ScriptCommand.Type.DIALOGUE,
+                            lastCommand.getParam1(),
+                            mergedText
+                    );
+
+                    commands.set(lastIndex,mergedCmd);
+                    continue;
+                }
             }
         }
         return commands;

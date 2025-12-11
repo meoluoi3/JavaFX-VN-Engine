@@ -1,8 +1,11 @@
 package com.vnengine.states;
 
+import com.vnengine.logic.utils.ScriptFileIO;
 import com.vnengine.logic.ScriptParser;
 import com.vnengine.logic.VNExecutor;
 import com.vnengine.ui.DialogueBox;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
@@ -17,9 +20,15 @@ public class GameplayState implements GameState{
         this.root = root;
 
         backgroundView = new ImageView();
+        backgroundView.setFitWidth(1280);
+        backgroundView.setFitHeight(720);
+        backgroundView.setPreserveRatio(false);
+
         dialogueBox = new DialogueBox();
 
         root.getChildren().addAll(backgroundView,dialogueBox);
+        StackPane.setAlignment(dialogueBox, Pos.BOTTOM_CENTER);
+        StackPane.setMargin(dialogueBox, new Insets(0, 0, 30, 0));
 
         vnExecutor = new VNExecutor(dialogueBox,backgroundView);
 
@@ -34,11 +43,7 @@ public class GameplayState implements GameState{
 
         root.setOnMouseClicked(e -> vnExecutor.onUserAction());
 
-        String test =
-        "[background \"forest.png\"]\n" +
-        "EGG: Hello World!\n" +
-        "[wait 1.0]\n" +
-        "BALL: This is the new engine.";
+        String test = ScriptFileIO.read("test.txt");
 
         vnExecutor.loadScript(new ScriptParser().parse(test));
         dialogueBox.show(null, "Press SPACE to Start...");

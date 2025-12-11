@@ -1,0 +1,16 @@
+meoluoi : hi....
+meoluoi: Im making a Visual Novel engine
+eoluoi: and yeah im trying to see if it works or not
+now lets check if I can change background
+aaaa
+[background "small2.jpg"]
+meoluoi: well thats a small cat in a back ground
+meoluoi: hmmm how about studying
+[background "study.jpg"]
+meoluoi:Nice it is rlyt cool muhehehhehe
+hmmheeee
+[wait 1.0]
+meoluoi: how about some beeeeee
+[background "bee_cat.jpg"]
+meoluoi: cooool
+meoluoi: their source are respectively= https://pin.it/7MZuwJ96F https://pin.it/39UhqoyMM https://pin.it/Q6aTWwOYA

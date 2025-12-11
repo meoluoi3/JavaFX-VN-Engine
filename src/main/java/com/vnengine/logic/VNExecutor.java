@@ -1,6 +1,8 @@
 package com.vnengine.logic;
 
+import com.vnengine.logic.utils.AssetLoader;
 import com.vnengine.ui.DialogueBox;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.List;
@@ -41,6 +43,7 @@ public class VNExecutor {
         if (waitTimer > 0) {
             waitTimer -= deltaTime;
             if (waitTimer <= 0) {
+                logger.info("times up!");
                 processNextCommand();
             }
             return;
@@ -54,14 +57,21 @@ public class VNExecutor {
     public void onUserAction() {
         if (!isRunning) {
             start();
+            return;
+        }
+
+        if (waitTimer > 0) {
+            logger.info("waitTimer is tickin' ({}) ... dont press/click", this.waitTimer);
+            return;
+        }
+
+        if (dialogueBox.isTyping()) {
+            dialogueBox.skipTyping();
         } else {
-            if (dialogueBox.isTyping()) {
-                dialogueBox.skipTyping();
-            } else {
-                processNextCommand();
-            }
+            processNextCommand();
         }
     }
+
 
     private void processNextCommand() {
         if (instructionPointer >= script.size()) {
@@ -70,21 +80,34 @@ public class VNExecutor {
 
         ScriptCommand cmd = script.get(instructionPointer++);
 
-        if (cmd.type == ScriptCommand.Type.DIALOGUE) {
-            dialogueBox.show(cmd.param1, cmd.param2);
+        if (cmd.getType() == ScriptCommand.Type.DIALOGUE) {
+            dialogueBox.show(cmd.getParam1(), cmd.getParam2());
         } else {
             handleAction(cmd);
         }
     }
 
     private void handleAction(ScriptCommand cmd) {
-        switch (cmd.param1) {
+        switch (cmd.getParam1()) {
             case "background":
-                logger.info("Set Background to: {}", cmd.param2);
+                logger.info("Set Background to: {}", cmd.getParam2());
+                Image bgImage = AssetLoader.loadImage(cmd.getParam2());
+                if (bgImage != null) {
+                    if (bgImage.isError()) {
+                        logger.error("BG Error: ", bgImage.getException());
+                    } else {
+                        logger.info("Good Image! Size: {} x {}", bgImage.getWidth(), bgImage.getHeight());
+                        imageView.setImage(bgImage);
+                    }
+                } else {
+                    logger.error("Failed to set background: {}", cmd.getParam2());
+                }
+
                 processNextCommand();
                 break;
             case "wait":
-                this.waitTimer = Double.parseDouble(cmd.param2);
+                this.waitTimer = Double.parseDouble(cmd.getParam2());
+                logger.info("wait time: {} second(s).", this.waitTimer);
                 break;
         }
     }

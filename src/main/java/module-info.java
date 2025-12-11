@@ -6,7 +6,10 @@ module com.vnengine.vngameengine {
     requires com.almasb.fxgl.all;
     requires java.logging;
     requires org.slf4j;
+    requires com.fasterxml.jackson.annotation;
 
+    opens com.vnengine.images;
+    opens com.vnengine.dialogue;
     opens com.vnengine to javafx.fxml;
     exports com.vnengine;
 }

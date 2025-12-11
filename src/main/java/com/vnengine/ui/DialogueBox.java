@@ -27,6 +27,8 @@ public class DialogueBox extends StackPane {
     private static final double SECONDS_PER_CHAR = 1.0 / CHARS_PER_SECOND;
 
     public DialogueBox() {
+
+        this.setMaxSize(1200, 200);
         // setup Background (the kinda transparent box)
         Rectangle bg = new Rectangle(1200,200);
         bg.setFill(Color.rgb(0, 0, 0, 0.7));
@@ -56,15 +58,23 @@ public class DialogueBox extends StackPane {
         // add this class to StackPane
         this.getChildren().addAll(bg, container);
 
-        // Position the box at the bottom
-        StackPane.setAlignment(this, Pos.BOTTOM_CENTER);
-        StackPane.setMargin(this, new Insets(0, 0, 30, 0));
+        // Position the box at the bottom (changed to GameplayState)
     }
 
     public void show(String speakerName, String text) {
+        if (speakerName == null || speakerName.trim().isEmpty()) {
+            this.nameLabel.setText("");
+            this.nameLabel.setVisible(false);
+            this.nameLabel.setManaged(false);
+        } else {
+            this.nameLabel.setText(speakerName);
+            this.nameLabel.setVisible(true);
+            this.nameLabel.setManaged(true);
+        }
+
         // Handle Null
-        this.nameLabel.setText(speakerName != null ? speakerName: "???");
-        this.targetText = text != null ? text : "[??????]";
+        this.nameLabel.setText(speakerName != null ? speakerName: "");
+        this.targetText = text != null ? text : "[]";
 
         // Reset Typewriter
         this.contentLabel.setText("");
