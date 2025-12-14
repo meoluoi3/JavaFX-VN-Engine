@@ -77,12 +77,12 @@ Create story scripts in '.txt' files inside `src/main/resources/com/vnengine/dia
 ### Basic Commands
 #### Background
 ```
-[background image_name. jpg]
+[background image_name.jpg]
 ```
 
 #### Characters
 ```
-[show CharacterName image. png Position Flipped]
+[show CharacterName image.png Position Flipped]
 [hide CharacterName]
 [change CharacterName new_image.png]
 ```
