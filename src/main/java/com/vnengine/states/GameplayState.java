@@ -1,5 +1,7 @@
 package com.vnengine.states;
 
+
+import com.vnengine.core.CharacterManager;
 import com.vnengine.logic.utils.ScriptFileIO;
 import com.vnengine.logic.ScriptParser;
 import com.vnengine.logic.VNExecutor;
@@ -12,6 +14,7 @@ import javafx.scene.layout.StackPane;
 public class GameplayState implements GameState{
     private VNExecutor vnExecutor;
     private DialogueBox dialogueBox;
+    private CharacterManager characterManager;
     private ImageView backgroundView;
     private StackPane root;
 
@@ -26,11 +29,13 @@ public class GameplayState implements GameState{
 
         dialogueBox = new DialogueBox();
 
+        characterManager = new CharacterManager(root);
+
         root.getChildren().addAll(backgroundView,dialogueBox);
         StackPane.setAlignment(dialogueBox, Pos.BOTTOM_CENTER);
         StackPane.setMargin(dialogueBox, new Insets(0, 0, 30, 0));
 
-        vnExecutor = new VNExecutor(dialogueBox,backgroundView);
+        vnExecutor = new VNExecutor(dialogueBox,backgroundView, characterManager);
 
         root.getScene().setOnKeyPressed(e -> {
             switch (e.getCode()) {
@@ -43,7 +48,7 @@ public class GameplayState implements GameState{
 
         root.setOnMouseClicked(e -> vnExecutor.onUserAction());
 
-        String test = ScriptFileIO.read("test.txt");
+        String test = ScriptFileIO.read("test3.txt");
 
         vnExecutor.loadScript(new ScriptParser().parse(test));
         dialogueBox.show(null, "Press SPACE to Start...");

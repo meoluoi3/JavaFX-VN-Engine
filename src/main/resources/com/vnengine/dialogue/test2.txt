@@ -1,0 +1,12 @@
+meoluoi: HII this is my second test prompt.
+[background "bee_cat.jpg"]
+
+meoluoi: I will proceed to create a new character...
+[show test character.png LEFT]
+[speak test]
+test: huh where am i??
+test: why am i here??
+meoluoi: alright thats enough
+mroluoi: deleting the character...
+[hide test]
+meoluoi: done!
