@@ -144,7 +144,7 @@ This engine uses several design patterns:
   Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
 ### Character Sprites
-- **Character Reference Poses** by Raziel Nozac Zerreitug  
+- **Editable Pixel Art Pose Pack** by Noraneko Games (Raziel Nozac Zerreitug)  
   Free to use with optional attribution
 
 See [CREDITS.md](CREDITS.md) for full details.
