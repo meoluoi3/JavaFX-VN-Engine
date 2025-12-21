@@ -6,6 +6,8 @@ import com.vnengine.logic.utils.AssetLoader;
 import com.vnengine.ui.DialogueBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import com.vnengine.logic. utils.audio.AudioManager;
+import com.vnengine.logic.utils.audio.AudioChannel;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -21,11 +23,14 @@ public class VNExecutor {
     private final DialogueBox dialogueBox;
     private final ImageView imageView;
     private final CharacterManager characterManager;
+    private final AudioManager audioManager;
 
-    public VNExecutor(DialogueBox dialogueBox, ImageView imageView, CharacterManager characterManager) {
+    public VNExecutor(DialogueBox dialogueBox, ImageView imageView,
+                      CharacterManager characterManager, AudioManager audioManager) {
         this.dialogueBox = dialogueBox;
         this.imageView = imageView;
         this.characterManager = characterManager;
+        this.audioManager = audioManager;
     }
 
     public void loadScript(List <ScriptCommand> script) {
@@ -164,6 +169,63 @@ public class VNExecutor {
                 // Format: [wait x.x (seconds in double type)]
                 this.waitTimer = Double.parseDouble(cmd.getParam2());
                 logger.info("wait time: {} second(s).", this.waitTimer);
+                break;
+            case "music":
+            case "bgm":
+                // Format: [music theme.mp3] or [music theme.mp3 loop] or [music theme.mp3 loop 2000]
+                String[] musicParts = cmd.getParam2().split(" ");
+                String musicName = musicParts[0];
+                boolean loop = musicParts.length > 1 && musicParts[1].equals("loop");
+                int fadeIn = musicParts.length > 2 ? Integer.parseInt(musicParts[2]) : 0;
+
+                audioManager.play(AudioChannel.BACKGROUND, musicName, loop, fadeIn);
+                processNextCommand();
+                break;
+            case "stopMusic":
+                int fadeOut = cmd.getParam2().isEmpty() ? 0 : Integer.parseInt(cmd.getParam2().trim());
+                audioManager.stop(AudioChannel.BACKGROUND, fadeOut);
+                processNextCommand();
+                break;
+            case "crossfade":
+                String[] crossfadeParts = cmd.getParam2().split(" ");
+                String nextMusic = crossfadeParts[0];
+                int duration = crossfadeParts.length > 1 ? Integer.parseInt(crossfadeParts[1]) : 2000;
+
+                audioManager.crossfade(nextMusic, duration);
+                processNextCommand();
+                break;
+            case "voice":
+                audioManager.play(AudioChannel.VOICE, cmd.getParam2());
+                processNextCommand();
+                break;
+            case "ambient":
+                String[] ambientParts = cmd.getParam2().split(" ");
+                String ambientName = ambientParts[0];
+                boolean ambientLoop = ambientParts.length > 1 && ambientParts[1].equals("loop");
+
+                audioManager.play(AudioChannel.AMBIENT, ambientName, ambientLoop);
+                processNextCommand();
+                break;
+
+            case "stopAmbient":
+                int ambientFadeOut = cmd.getParam2().isEmpty() ? 0 : Integer.parseInt(cmd.getParam2().trim());
+                audioManager. stop(AudioChannel.AMBIENT, ambientFadeOut);
+                processNextCommand();
+                break;
+
+            case "pauseAll":
+                audioManager.pauseAll();
+                processNextCommand();
+                break;
+
+            case "resumeAll":
+                audioManager.resumeAll();
+                processNextCommand();
+                break;
+
+            case "stopAll":
+                audioManager.stopAll();
+                processNextCommand();
                 break;
         }
     }

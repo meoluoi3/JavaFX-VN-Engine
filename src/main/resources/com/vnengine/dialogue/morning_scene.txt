@@ -1,0 +1,73 @@
+# Morning Scene - Alice wakes up and finds Zuzu
+# Using FulminisIctus Audio Pack
+
+# === BEDROOM SCENE ===
+[background Spiral_Atlas_VN_House_Backgrounds/single_bedroom.jpg]
+
+# Soft, peaceful morning music
+[music bgm/I'll_be_Here.mp3 loop 2000]
+
+Alice: *yawn*
+Alice: It's a very... very good sleep.
+Alice: Maybe one of the best in my life.
+
+[show Alice referencepose/png_256x288/body2_35.png left]
+Alice: I wonder where everyone is...
+[hide Alice]
+
+# === HALLWAY SCENE ===
+[background Spiral_Atlas_VN_House_Backgrounds/hallway.jpg]
+
+Alice: *walking*...
+
+# === MASTER BEDROOM SCENE ===
+[background Spiral_Atlas_VN_House_Backgrounds/master_bedroom.jpg]
+[show Alice referencepose/png_256x288/body2_30.png right]
+
+Alice: Zuzu?
+Alice: Hmm... not here.
+[hide Alice]
+
+# === BACK TO HALLWAY ===
+[background Spiral_Atlas_VN_House_Backgrounds/hallway.jpg]
+
+Alice: *walking*...  x2
+
+# === BATHROOM SCENE (The Surprise!) ===
+[background Spiral_Atlas_VN_House_Backgrounds/bathroom.jpg]
+[show Zuzu referencepose/png_256x288/body1_3.png right]
+[show Alice referencepose/png_256x288/body2_36.png left]
+
+Alice: Good morning Zuzu!
+Zuzu: !
+
+# Quick switch to mysterious/awkward music
+[crossfade bgm/Strange_Melody.mp3 600]
+
+[change Zuzu referencepose/png_256x288/body1_20.png]
+Zuzu: What the— why did you come in without knocking on the door?!
+
+[change Zuzu referencepose/png_256x288/body1_1.png]
+Zuzu: Go away!!
+
+[change Alice referencepose/png_256x288/body2_30.png]
+Alice: S-sorry!  I didn't know!
+
+[hide Alice]
+[hide Zuzu]
+# === HALLWAY - AFTERMATH ===
+[background Spiral_Atlas_VN_House_Backgrounds/hallway.jpg]
+
+# Fade back to peaceful music
+[crossfade bgm/I'll_be_Here.mp3 2500]
+
+[show Alice referencepose/png_256x288/body2_35.png center]
+Alice: *embarrassed* ...  I should've knocked.
+Alice: Maybe I'll go make breakfast instead...
+
+
+[hide Alice]
+# Fade out
+[stopMusic 2000]
+
+# End scene

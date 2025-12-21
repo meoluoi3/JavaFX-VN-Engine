@@ -1,5 +1,7 @@
 package com.vnengine.core;
 
+import com.vnengine.logic.utils.AssetLoader;
+import com.vnengine.logic.utils.audio.AudioManager;
 import com.vnengine.states.GameState;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
@@ -12,6 +14,9 @@ public class GameDirector {
     private StackPane rootLayout;
     private GameState currentState;
     private long lastTime;
+
+    private AssetLoader assetLoader;
+    private AudioManager audioManager;
 
     private GameDirector() {}
 
@@ -29,6 +34,9 @@ public class GameDirector {
         Scene scene = new Scene(rootLayout, 1280,720);
         stage.setScene(scene);
         stage.setTitle("A Visual Novel Engine");
+
+        this.assetLoader = new AssetLoader();
+        this.audioManager = new AudioManager(assetLoader);
         stage.show();
         startLoop();
     }
@@ -62,5 +70,27 @@ public class GameDirector {
         }
         currentState = newState;
         currentState.enter(rootLayout);
+    }
+
+    public void shutdown() {
+        if (audioManager != null) {
+            audioManager.dispose();
+        }
+    }
+
+    public AssetLoader getAssetLoader() {
+        return assetLoader;
+    }
+
+    public AudioManager getAudioManager() {
+        return audioManager;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public StackPane getRootLayout() {
+        return rootLayout;
     }
 }

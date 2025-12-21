@@ -11,6 +11,10 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         GameDirector.getInstance().init(stage);
         GameDirector.getInstance().changeState(new GameplayState());
+
+        stage.setOnCloseRequest(e -> {
+            GameDirector.getInstance().shutdown();
+        });
     }
 
     public static void main(String[] args) {

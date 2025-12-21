@@ -7,6 +7,7 @@ module com.vnengine.vngameengine {
     requires java.logging;
     requires org.slf4j;
     requires com.fasterxml.jackson.annotation;
+    requires javafx.media;
 
     opens com.vnengine.images;
     opens com.vnengine.dialogue;

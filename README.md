@@ -5,9 +5,9 @@
 ![JavaFX](https://img.shields.io/badge/JavaFX-21-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-A lightweight Visual Novel Engine built with JavaFX, featuring State Pattern, Command Pattern, and custom Script parsing.
+A lightweight Visual Novel Engine built with JavaFX, featuring State Pattern, Command Pattern, and custom Script parsing. 
 
-> **Note**:  This project is currently in active development. Features may change and some functionality is still being implemented.
+> **Note**:  This project is currently in active development.  Features may change and some functionality is still being implemented.
 
 ---
 ## Features
@@ -24,19 +24,28 @@ A lightweight Visual Novel Engine built with JavaFX, featuring State Pattern, Co
   - Speaker name display
   - Skip typing functionality
 
+- **Audio System**
+  - Background music (BGM) with looping and crossfade support
+  - Ambient sound effects with independent volume control
+  - Voice line playback
+  - Fade-in/fade-out effects
+  - Multi-channel audio (BGM, Ambient, Voice)
+  - Pause/Resume/Stop all controls
+
 - **Script Parser**
   - Custom scripting language
-  - Command-based system (background, show, hide, change, wait)
+  - Command-based system (background, show, hide, change, wait, music, ambient, voice)
   - Easy-to-learn syntax
 
 - **Visual Management**
   - Background image system
   - Character layering (Background → Characters → Dialogue)
   - Automatic image scaling
+
 ### In Progress
-  - Sound system (BGM & SFX)
   - Transition effects
   - Save/Load system
+
 ### Planned
   - Choice system
   - Character animations
@@ -71,10 +80,11 @@ A lightweight Visual Novel Engine built with JavaFX, featuring State Pattern, Co
 ---
 
 ## Script Syntax
-Create story scripts in '.txt' files inside `src/main/resources/com/vnengine/dialogue/`
-(or use absolute path to the .txt file)
+Create story scripts in '. txt' files inside `src/main/resources/com/vnengine/dialogue/`
+(or use absolute path to the . txt file)
 
 ### Basic Commands
+
 #### Background
 ```
 [background image_name. jpg]
@@ -100,13 +110,62 @@ CharacterName:  Dialogue text goes here.
 [wait 2.0]
 ```
 
+#### Audio
+
+**Background Music (BGM):**
+```
+[music filename.mp3]                    # Play once
+[music filename.mp3 loop]               # Loop forever
+[music filename.mp3 loop 2000]          # Loop with 2-second fade-in
+[bgm filename.mp3 loop]                 # Alternative:  use 'bgm' instead of 'music'
+```
+
+**Stop Music:**
+```
+[stopMusic]                             # Stop immediately
+[stopMusic 1500]                        # Stop with 1.5-second fade-out
+[stopBgm 2000]                          # Alternative: use 'stopBgm'
+```
+
+**Crossfade Music:**
+```
+[crossfade next_track.mp3 3000]         # Smooth transition over 3 seconds
+```
+
+**Ambient Sounds:**
+```
+[ambient filename.mp3]                  # Play once
+[ambient filename. mp3 loop]             # Loop forever
+```
+
+**Stop Ambient:**
+```
+[stopAmbient]                           # Stop immediately
+[stopAmbient 1000]                      # Stop with 1-second fade-out
+```
+
+**Voice Lines:**
+```
+[voice filename.mp3]                    # Play voice line
+```
+
+**Control All Audio:**
+```
+[pauseAll]                              # Pause all channels (BGM + Ambient + Voice)
+[resumeAll]                             # Resume all paused channels
+[stopAll]                               # Stop all audio immediately
+```
+
 ### Example Script
 
 ```
 [background Spiral_Atlas_VN_House_Backgrounds/single_bedroom.jpg]
 
+# Start peaceful morning music with fade-in
+[music bgm/I'll_be_Here.mp3 loop 2000]
+
 [show Alice referencepose/png_256x288/body2_35.png LEFT false]
-Alice: Hello! Welcome to my room. 
+Alice: Hello! Welcome to my room.
 
 [wait 1.0]
 
@@ -114,10 +173,30 @@ Alice: Hello! Welcome to my room.
 Bob: Nice to meet you, Alice!
 
 [change Alice referencepose/png_256x288/body2_40.png]
-Alice: I'm so happy you're here! 
+Alice: I'm so happy you're here!
+
+# Add ambient sound
+[ambient ambient/rain.mp3 loop]
+
+Alice: Listen to that peaceful rain... 
+
+[wait 2.0]
+
+# Crossfade to different music
+[crossfade bgm/Strange_Melody.mp3 2500]
+
+Alice: The mood is changing...
+
+[wait 2.0]
+
+# Stop ambient with fade
+[stopAmbient 1500]
 
 [hide Bob]
-Alice: See you later!
+Alice: See you later! 
+
+# Fade out music
+[stopMusic 2000]
 ```
 
 ---
@@ -125,19 +204,36 @@ Alice: See you later!
 ## Architecture
 This engine uses several design patterns:
 
-- **State Pattern**:  Manages different game states (Menu, Gameplay, etc.)
+- **State Pattern**: Manages different game states (Menu, Gameplay, etc.)
 - **Command Pattern**:  Extensible script command system
-- **Singleton Pattern**:  GameDirector, CharacterManager, AssetLoader
-- **MVC-inspired**:  Separation of logic, UI, and data (need more development & refactoring work)
+- **Singleton Pattern**: GameDirector, CharacterManager, AssetLoader, AudioManager
+- **MVC-inspired**: Separation of logic, UI, and data (need more development & refactoring work)
 
 ---
 
 ## Technologies
 - **JavaFX 21** - UI framework and rendering
+- **JavaFX Media** - Audio playback system
 - **SLF4J + Logback** - Logging
 - **Maven** - Build tool and dependency management
 
 ## Asset Credits
+
+### Audio
+
+**Visual Novel Audio Pack**
+- **Composer & Sound Designer**: Tim Reichert ([website](https://tim-reichert.com))
+- **Source**: [Visual Novel Audio Pack](https://fulminisictus.itch.io/visual-novel-audio-pack)
+- **Licenses**:
+  - UI SFX & Transitions:  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (Commercial use allowed)
+  - Music & Ambient: [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) (Non-commercial only)
+
+**Collaborators**:
+- Vocalist & Lyricist (I'll be Here): Eliana Z. ([@TheStorysinger](https://twitter.com/TheStorysinger))
+- Vocalist (The Power in my Hands): Terence Kern ([@tjthepanda](http://sometag.com/account/tjthepanda/5480923258/))
+- Vocalist (Strange Melody): Yukari ([@killuanya](https://twitter.com/killuanya))
+
+> **Note for Commercial Use:** The demo audio files are for demonstration and testing purposes.  UI SFX may be used commercially with attribution, but music and ambient tracks are non-commercial only. For commercial projects, replace these files or contact [Tim Reichert](https://tim-reichert.com) for licensing. 
 
 ### Backgrounds
 - **Spiral Atlas Visual Novel House Backgrounds** by [Spiral Atlas](https://spiralatlas.github.io/credits/)  
@@ -151,9 +247,9 @@ See [CREDITS.md](CREDITS.md) for full details.
 
 ---
 
-##  Contributing
+## Contributing
 
-Contributions are welcome! Whether you're:
+Contributions are welcome! Whether you're: 
 - Reporting bugs
 - Suggesting features
 - Submitting pull requests
@@ -177,7 +273,7 @@ Please feel free to open an issue or PR!
 - [x] Dialogue box with typewriter effect
 - [x] Script parser and executor
 - [x] Background management
-- [ ] Sound system (BGM/SFX)
+- [x] Sound system (BGM/SFX/Ambient)
 - [ ] Save/Load functionality
 - [ ] Choice system for branching stories
 - [ ] Transition effects (fade, slide, etc.)
@@ -191,7 +287,7 @@ Please feel free to open an issue or PR!
 ## License
 
 This project's **code** is open source under the MIT License.  
-**Assets** (backgrounds, characters) have their own licenses - see [CREDITS.md](CREDITS.md).
+**Assets** (backgrounds, characters, audio) have their own licenses - see [CREDITS.md](CREDITS.md).
 
 ---
 
@@ -208,6 +304,7 @@ For questions, suggestions, or bug reports, please [open an issue](https://githu
 - [Ren'Py](https://www.renpy.org/) - Inspiration for VN structure
 - [Spiral Atlas](https://spiralatlas.github.io/) - Beautiful background art
 - Raziel Nozac Zerreitug - Character sprite bases
+- Tim Reichert & Collaborators - High-quality audio pack
 - JavaFX community for excellent documentation
 
 ---
