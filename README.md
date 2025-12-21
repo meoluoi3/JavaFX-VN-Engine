@@ -135,7 +135,7 @@ CharacterName:  Dialogue text goes here.
 **Ambient Sounds:**
 ```
 [ambient filename.mp3]                  # Play once
-[ambient filename. mp3 loop]             # Loop forever
+[ambient filename.mp3 loop]             # Loop forever
 ```
 
 **Stop Ambient:**

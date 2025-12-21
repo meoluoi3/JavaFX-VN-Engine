@@ -182,6 +182,7 @@ public class VNExecutor {
                 processNextCommand();
                 break;
             case "stopMusic":
+            case "stopBgm":
                 int fadeOut = cmd.getParam2().isEmpty() ? 0 : Integer.parseInt(cmd.getParam2().trim());
                 audioManager.stop(AudioChannel.BACKGROUND, fadeOut);
                 processNextCommand();
